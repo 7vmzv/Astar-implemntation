@@ -3,6 +3,11 @@ package com.eil.elements;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
 @AllArgsConstructor @Getter
 public class Node {
     private Grid grid;
@@ -47,5 +52,50 @@ public class Node {
         pos[0] = (int)(val - 0.00001) / grid.getSize();
         pos[1] = val - (pos[0] * grid.getSize() + 1);
         return pos;
+    }
+
+    public static int[][] copy(int[][] src) {
+        if (src == null) {
+            return null;
+        }
+
+        int[][] copy = new int[src.length][];
+        for (int i = 0; i < src.length; i++) {
+            copy[i] = Arrays.copyOf(src[i], src[i].length);
+        }
+
+        return copy;
+    }
+
+    public List<Grid> successors() {
+        List<Grid> successorsList = new ArrayList<>();
+        if(grid.getLine0() > 0) {
+            int[][] top = copy(grid.getGrid());
+            top[grid.getLine0()][grid.getColumn0()] = top[grid.getLine0() - 1][grid.getColumn0()];
+            top[grid.getLine0() - 1][grid.getColumn0()] = 0;
+            successorsList.add(new Grid(top));
+        }
+
+        if(grid.getLine0() < grid.getSize() - 1) {
+            int[][] bottom = copy(grid.getGrid());
+            bottom[grid.getLine0()][grid.getColumn0()] = bottom[grid.getLine0() + 1][grid.getColumn0()];
+            bottom[grid.getLine0() + 1][grid.getColumn0()] = 0;
+            successorsList.add(new Grid(bottom));
+        }
+
+        if(grid.getColumn0() > 0) {
+            int[][] left = copy(grid.getGrid());
+            left[grid.getLine0()][grid.getColumn0()] = left[grid.getLine0()][grid.getColumn0() - 1];
+            left[grid.getLine0()][grid.getColumn0() - 1] = 0;
+            successorsList.add(new Grid(left));
+        }
+
+        if(grid.getLine0() < grid.getSize() - 1) {
+            int[][] right = copy(grid.getGrid());
+            right[grid.getLine0()][grid.getColumn0()] = right[grid.getLine0()][grid.getColumn0() + 1];
+            right[grid.getLine0()][grid.getColumn0() + 1] = 0;
+            successorsList.add(new Grid(right));
+        }
+        return successorsList;
     }
 }

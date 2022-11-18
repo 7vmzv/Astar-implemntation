@@ -12,9 +12,9 @@ public class Grid {
     public Grid(int[][] grid) {
         size = grid[0].length;
         this.grid = new int[size][size];
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                if(this.grid[i][j] == 0) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(grid[i][j] == 0) {
                     line0 = i;
                     column0 = j;
                 }
