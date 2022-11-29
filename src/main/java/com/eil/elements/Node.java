@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor @Getter
 public class Node {
@@ -97,5 +96,16 @@ public class Node {
             successorsList.add(new Grid(right));
         }
         return successorsList;
+    }
+
+    public boolean isFinaleState() {
+        int[][] gridToTest = grid.getGrid();
+        for (int i = 0; i < grid.getSize(); i++) {
+            for (int j = 0; j < grid.getSize(); j++) {
+                if (j == grid.getSize() - 2) return true;
+                if(grid.getGrid()[i][j] != i+j+1) return false;
+            }
+        }
+        return true;
     }
 }
